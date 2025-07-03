@@ -74,7 +74,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 📦 Celery Ayarları
+#  Celery Ayarları
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
@@ -86,11 +86,19 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-# 📧 Mail Ayarları (Gmail için uygulama şifresi gereklidir)
+#  Mail Ayarları (Gmail için uygulama şifresi gereklidir)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ay3727096@gmail.com'
-EMAIL_HOST_PASSWORD = 'yjnv fcoe xgkv dgib'  # uygulama şifresi
+from decouple import config
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
 
