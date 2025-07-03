@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yeni Post Oluştur</title>
+</head>
+<body>
+    <h1>Yeni Post</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Gönder</button>
+    </form>
+</body>
+</html>

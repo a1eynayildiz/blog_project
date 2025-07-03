@@ -1,0 +1,20 @@
+<!-- templates/post_list.html -->
+
+<html>
+<head>
+    <title>Postlar</title>
+</head>
+<body>
+    <h1>Herkese Açık Postlar</h1>
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <small>{{ post.user.username }} - {{ post.created_at }}</small>
+            <hr>
+        </div>
+    {% empty %}
+        <p>Henüz post yok.</p>
+    {% endfor %}
+</body>
+</html>
