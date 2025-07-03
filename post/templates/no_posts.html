@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Son 10 Dakikada Post Atmayanlar</title>
+</head>
+<body>
+    <h2>📭 Son 10 Dakikada Post Atmayanlar</h2>
+    {% if records %}
+        <ul>
+        {% for record in records %}
+            <li>{{ record.user.username }} - {{ record.checked_at|date:"H:i:s" }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Tüm kullanıcılar post atmış 🎉</p>
+    {% endif %}
+</body>
+</html>

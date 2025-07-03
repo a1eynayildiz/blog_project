@@ -8,3 +8,7 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content', 'user__username')
     list_filter = ('created_at', 'user')
     ordering = ('-created_at',)
+
+from .models import NoPostRecord
+
+admin.site.register(NoPostRecord)

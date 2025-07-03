@@ -10,3 +10,11 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class NoPostRecord(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    checked_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.checked_at}"

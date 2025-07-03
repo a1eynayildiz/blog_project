@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Ekle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h2 class="text-center mb-4">📝 Yeni Post Oluştur</h2>
+
+    <form method="POST" class="card p-4 shadow-sm bg-white">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Başlık</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">İçerik</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="user" class="form-label">Post Sahibi</label>
+            <select class="form-select" name="user" id="user" required>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Postu Gönder</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'post_list' %}" class="btn btn-secondary">⬅️ Geri Dön</a>
+    </div>
+</div>
+</body>
+</html>
