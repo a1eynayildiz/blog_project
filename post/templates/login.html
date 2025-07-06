@@ -1,0 +1,16 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Giriş Yap</title>
+</head>
+<body>
+  <h2>Giriş Yap</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Giriş</button>
+  </form>
+</body>
+</html>

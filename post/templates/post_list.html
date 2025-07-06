@@ -10,6 +10,11 @@
 
     <div class="container py-5">
         <h1 class="mb-4 text-center">📚 Tüm Postlar</h1>
+          {% if user.is_authenticated %}
+        <p>Hoş geldin {{ user.username }} | <a href="{% url 'logout' %}">Çıkış</a></p>
+             {% else %}
+          <p><a href="{% url 'login' %}">Giriş Yap</a></p>
+           {% endif %}
 
         {% if posts %}
             <div class="row">
