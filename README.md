@@ -126,6 +126,29 @@ from .celery import app as celery_app
 __all__ = ['celery_app']
 
 ````
+## 🌐 Uygulama URL’leri ve Açıklamaları (REST + Template)
+
+| Adres | Açıklama |
+|-------|----------|
+| `http://127.0.0.1:8000/` | Ana sayfa (yönlendirme yapar) |
+| `http://127.0.0.1:8000/posts/` | Tüm gönderileri (post) listeler |
+| `http://127.0.0.1:8000/posts/create/` | Yeni post oluşturma sayfası (yalnızca giriş yapmış kullanıcılar erişebilir) |
+| `http://127.0.0.1:8000/posts/no-posts/` | Son 10 dakikada post atmayan stajyerleri listeler |
+| `http://127.0.0.1:8000/posts/login/` | Giriş (login) sayfası (admin veya stajyer) |
+| `http://127.0.0.1:8000/posts/logout/` | Çıkış sayfası (logout) |
+
+---
+
+## 🔁 REST API URL’leri (DRF + Token)
+
+| Adres | Açıklama |
+|-------|----------|
+| `http://127.0.0.1:8000/posts/api/` | API ana dizini (auth gerektirir) |
+| `http://127.0.0.1:8000/posts/api/posts/` | Giriş yapan kişinin kendi postlarını (stajyer) veya tüm postları (admin) gösterir |
+| `http://127.0.0.1:8000/posts/api/posts/<id>/` | Belirli bir post detayına ulaşım ve güncelleme/silme işlemleri |
+| `http://127.0.0.1:8000/posts/api/users/` | Kullanıcı listesi (sadece admin görebilir) |
+| `http://127.0.0.1:8000/posts/api/token/` | Token alma endpoint’i (`POST` ile username + password gönderilir) |
+| `http://127.0.0.1:8000/posts/api/posts-list/` | Eski API: Tüm postları listeler veya oluşturur (kısıtlı) |
 
 
 
