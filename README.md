@@ -32,7 +32,6 @@ A simple blog application built with Django. Users can create posts, view public
 - **Backend**: Django (Python)  
 - **Task Queue**: Celery + Redis  
 - **Frontend**: HTML, CSS (via Django Templates)  
-- **Database**: SQLite (default)  
 - **Other Tools**: Git, GitHub, Postman
 
 ---
@@ -144,9 +143,9 @@ __all__ = ['celery_app']
 | Adres | Açıklama |
 |-------|----------|
 | `http://127.0.0.1:8000/posts/api/` | API ana dizini (auth gerektirir) |
-| `http://127.0.0.1:8000/posts/api/posts/` | Giriş yapan kişinin kendi postlarını (stajyer) veya tüm postları (admin) gösterir |
+| `http://127.0.0.1:8000/posts/api/posts/` | Giriş yapan kişi tüm postları görüntüler. |
 | `http://127.0.0.1:8000/posts/api/posts/<id>/` | Belirli bir post detayına ulaşım ve güncelleme/silme işlemleri |
-| `http://127.0.0.1:8000/posts/api/users/` | Kullanıcı listesi (sadece admin görebilir) |
+| `http://127.0.0.1:8000/posts/api/users/` | Kullanıcı listesi |
 | `http://127.0.0.1:8000/posts/api/token/` | Token alma endpoint’i (`POST` ile username + password gönderilir) |
 | `http://127.0.0.1:8000/posts/api/posts-list/` | Eski API: Tüm postları listeler veya oluşturur (kısıtlı) |
 
