@@ -1,16 +1,238 @@
-<!-- templates/login.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <title>Giriş Yap</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: background 0.4s ease, color 0.3s ease;
+    }
+
+    .form-wrapper {
+      padding: 3rem;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 90%;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      position: relative;
+    }
+
+    .form-wrapper h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      padding: 12px;
+      margin-bottom: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: color 0.3s ease;
+    }
+
+    .glow {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 8s ease-in-out infinite alternate;
+      z-index: -1;
+    }
+
+    .glow1 {
+      top: -50px;
+      left: -50px;
+    }
+
+    .glow2 {
+      bottom: -60px;
+      right: -60px;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0); }
+      100% { transform: translateY(-30px) translateX(30px); }
+    }
+
+    /* === THEME VARIABLES === */
+    body.light {
+      background: linear-gradient(135deg, #f8e1f4, #e0d4ff, #c9e6fb);
+    }
+
+    body.light .form-wrapper {
+      background: rgba(255, 255, 255, 0.7);
+      color: #333;
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.1),
+        0 0 30px rgba(174, 113, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    body.light input {
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+    body.light input:focus {
+      box-shadow: 0 0 8px #c59fff;
+      background: #fff;
+    }
+
+    body.light button {
+      background: linear-gradient(to right, #e79be5, #b79df9, #7fd8ff);
+      color: white;
+      box-shadow: 0 0 12px rgba(135, 93, 255, 0.3);
+    }
+
+    body.light button:hover {
+      background: linear-gradient(to right, #d179d4, #9b84f0, #65cdf7);
+      box-shadow: 0 0 16px rgba(135, 93, 255, 0.4);
+    }
+
+    body.light .theme-toggle {
+      color: #333;
+    }
+
+    body.light .glow1 {
+      background: #ffb7ef;
+    }
+
+    body.light .glow2 {
+      background: #a5e7ff;
+    }
+
+    body.dark {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    }
+
+    body.dark .form-wrapper {
+      background: rgba(255, 255, 255, 0.05);
+      color: #f0f0f0;
+      box-shadow:
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        0 0 20px rgba(174, 113, 255, 0.2),
+        0 0 40px rgba(174, 113, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark input {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark input:focus {
+      box-shadow: 0 0 10px #a878f5, 0 0 20px #8a64ff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    body.dark button {
+      background: linear-gradient(to right, #b86efc, #805dff, #57c2ff);
+      color: white;
+      box-shadow: 0 0 12px rgba(128, 93, 255, 0.4);
+    }
+
+    body.dark button:hover {
+      background: linear-gradient(to right, #a54af5, #6f4cff, #3bbcff);
+      box-shadow: 0 0 20px rgba(128, 93, 255, 0.6);
+    }
+
+    body.dark .theme-toggle {
+      color: #fff;
+    }
+
+    body.dark .glow1 {
+      background: #b86efc;
+    }
+
+    body.dark .glow2 {
+      background: #57c2ff;
+    }
+  </style>
 </head>
 <body>
-  <h2>Giriş Yap</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Giriş</button>
-  </form>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+  <!-- Arka plan glow efektleri -->
+  <div class="glow glow1"></div>
+  <div class="glow glow2"></div>
+
+  <div class="form-wrapper">
+    <h2>Giriş Yap</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Giriş</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const isDark = body.classList.contains('dark');
+      body.className = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.className = savedTheme;
+      document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    });
+  </script>
 </body>
 </html>

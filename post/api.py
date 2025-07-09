@@ -40,15 +40,19 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 
-
+#DRF router ile erişilen API
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]  # 👈 Burası önemli
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        return Post.objects.all()
+        user = self.request.user
+        if user.is_staff:
+            return Post.objects.all()
+        return Post.objects.filter(user=user)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user)  # 👈 Admin de post atabilir
+
 
 

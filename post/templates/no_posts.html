@@ -1,18 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>Son 10 Dakikada Post Atmayanlar</title>
+  <meta charset="UTF-8">
+  <title>Son 10 Dakikada Post Atmayanlar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      transition: background 0.4s ease, color 0.3s ease;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      max-width: 700px;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 16px 60px rgba(0, 0, 0, 0.2);
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: var(--heading-color);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      color: var(--text-color);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeIn {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    p.empty {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      color: var(--text-color);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      z-index: 10;
+      color: var(--text-color);
+    }
+
+    /* LIGHT THEME */
+    body.light {
+      background: linear-gradient(135deg, #f8e1f4, #e0d4ff, #c9e6fb);
+      --bg-color: rgba(255, 255, 255, 0.8);
+      --text-color: #222;
+      --heading-color: #754fc4;
+    }
+
+    body.light .card {
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+
+    /* DARK THEME */
+    body.dark {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --text-color: #eee;
+      --heading-color: #dfb3ff;
+    }
+
+    body.dark .card {
+      background: rgba(255, 255, 255, 0.07);
+      color: #f0f0f0;
+    }
+
+  </style>
 </head>
-<body>
+<body class="light">
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+  <div class="wrapper">
     <h2>📭 Son 10 Dakikada Post Atmayanlar</h2>
+
     {% if records %}
-        <ul>
+      <div class="cards">
         {% for record in records %}
-            <li>{{ record.user.username }} - {{ record.checked_at|date:"H:i:s" }}</li>
+          <div class="card">
+            <strong>{{ record.user.username }}</strong><br>
+            <small>Kontrol: {{ record.checked_at|date:"d.m.Y H:i" }}</small>
+          </div>
         {% endfor %}
-        </ul>
+      </div>
     {% else %}
-        <p>Tüm kullanıcılar post atmış 🎉</p>
+      <p class="empty">🎉 Tüm kullanıcılar post atmış!</p>
     {% endif %}
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const isDark = body.classList.contains('dark');
+      body.className = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.className = savedTheme;
+      document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    });
+  </script>
 </body>
 </html>

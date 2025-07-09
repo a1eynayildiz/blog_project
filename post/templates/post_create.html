@@ -1,44 +1,199 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>Post Ekle</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Yeni Post</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      transition: background 0.4s ease, color 0.3s ease;
+    }
+
+    .form-wrapper {
+      max-width: 600px;
+      width: 100%;
+      padding: 2.5rem;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 16px 60px rgba(0, 0, 0, 0.2);
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.4s ease;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: var(--heading-color);
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-color);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #a78bfa;
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.2);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(to right, #b78af0, #809dff);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(to right, #9e6be3, #678eff);
+    }
+
+    .back-link {
+      display: inline-block;
+      text-align: center;
+      margin-top: 1.5rem;
+      padding: 10px 18px;
+      border: 1.5px solid var(--heading-color);
+      color: var(--heading-color);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: var(--heading-color);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      z-index: 10;
+      color: var(--text-color);
+    }
+
+    /* LIGHT THEME */
+    body.light {
+      background: linear-gradient(135deg, #f8e1f4, #e0d4ff, #c9e6fb);
+      --bg-color: rgba(255, 255, 255, 0.9);
+      --text-color: #222;
+      --heading-color: #754fc4;
+      --input-bg: #fff;
+      --input-border: #ccc;
+    }
+
+    /* DARK THEME */
+    body.dark {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --text-color: #eee;
+      --heading-color: #dfb3ff;
+      --input-bg: rgba(255, 255, 255, 0.07);
+      --input-border: #444;
+    }
+
+    /* Dark mode açılır menü düzeltme */
+    body.dark select {
+      background-color: rgba(255, 255, 255, 0.07);
+      color: #f0f0f0;
+      border: 1px solid #555;
+    }
+
+    body.dark select option {
+      background-color: #1f1f2e;
+      color: #f0f0f0;
+    }
+
+  </style>
 </head>
-<body class="bg-light">
-<div class="container py-5">
-    <h2 class="text-center mb-4">📝 Yeni Post Oluştur</h2>
+<body class="light">
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
 
-    <form method="POST" class="card p-4 shadow-sm bg-white">
-        {% csrf_token %}
+  <div class="form-wrapper">
+    <h2>📝 Yeni Post Oluştur</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="title">Başlık</label>
+      <input type="text" id="title" name="title" required>
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Başlık</label>
-            <input type="text" class="form-control" id="title" name="title" required>
-        </div>
+      <label for="content">İçerik</label>
+      <textarea id="content" name="content" rows="5" required></textarea>
 
-        <div class="mb-3">
-            <label for="content" class="form-label">İçerik</label>
-            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
-        </div>
+      <label for="user">Post Sahibi</label>
+      <select name="user" id="user" required>
+        {% for user in users %}
+          <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+      </select>
 
-        <div class="mb-3">
-            <label for="user" class="form-label">Post Sahibi</label>
-            <select class="form-select" name="user" id="user" required>
-                {% for user in users %}
-                    <option value="{{ user.id }}">{{ user.username }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="d-grid">
-            <button type="submit" class="btn btn-primary">Postu Gönder</button>
-        </div>
+      <button type="submit" class="btn-submit">🚀 Postu Gönder</button>
     </form>
 
-    <div class="text-center mt-3">
-        <a href="{% url 'post_list' %}" class="btn btn-secondary">⬅️ Geri Dön</a>
+    <div class="text-center">
+      <a href="{% url 'post_list' %}" class="back-link">⬅️ Geri Dön</a>
     </div>
-</div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const isDark = body.classList.contains('dark');
+      body.className = isDark ? 'light' : 'dark';
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.className = savedTheme;
+      document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    });
+  </script>
 </body>
 </html>

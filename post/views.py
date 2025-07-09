@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .models import Post, NoPostRecord
 
-# 🌐 POST LİST TEMPLATE
+#  POST LİST TEMPLATE
 def post_list(request):
     posts = Post.objects.all().order_by('-created_at')
     return render(request, 'post_list.html', {'posts': posts})
 
-# 🌐 POST CREATE TEMPLATE
+#  POST CREATE TEMPLATE
 @login_required
 def post_create(request):
     users = User.objects.all()
@@ -30,7 +30,7 @@ def post_create(request):
 
     return render(request, 'post_create.html', {'users': users})
 
-# 🌐 10 DAKİKADA POST ATMAYANLAR SAYFASI
+#  10 DAKİKADA POST ATMAYANLAR SAYFASI
 def no_posts(request):
     users = NoPostRecord.objects.select_related('user').all().order_by('-checked_at')
     return render(request, 'no_posts.html', {'records': users})
