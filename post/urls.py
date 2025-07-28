@@ -1,8 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
-
-
 from .views import post_list, post_create, no_posts
 from .api import UserViewSet, PostViewSet, post_list_api
 from django.contrib.auth import views as auth_views

@@ -10,7 +10,6 @@ from rest_framework.permissions import IsAuthenticated
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
 def post_list_api(request):
     if request.method == 'GET':
         posts = Post.objects.all()
@@ -18,12 +17,12 @@ def post_list_api(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        print(f"GELEN USER: {request.user}")  # DEBUG
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save(user=request.user)  # user alanı zorunluysa
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
 
 
 

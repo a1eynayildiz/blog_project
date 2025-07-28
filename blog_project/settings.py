@@ -7,6 +7,8 @@ SECRET_KEY = 'django-insecure-8l-eikk36t^csqp9w(i59qi4t#vgalv-4-(2vuw$hf2&e5@t-7
 
 DEBUG = True
 
+
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -19,12 +21,16 @@ INSTALLED_APPS = [
     'post',  # ← kendi app'in
     'django_celery_beat',
     'django_celery_results',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    
+
     
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -107,7 +113,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',  # ← bunu ekle
+        'rest_framework.authentication.SessionAuthentication',  
     ],
 }
 
@@ -117,3 +123,12 @@ LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_URL = '/login/'
 
 
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+]
