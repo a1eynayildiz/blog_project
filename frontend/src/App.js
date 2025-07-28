@@ -7,8 +7,7 @@ import './App.css';
 function App() {
   const [refresh, setRefresh] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
-    // Tema tercihini localStorage'dan al
-    return localStorage.getItem('darkMode') === 'true';
+    return JSON.parse(localStorage.getItem('darkMode') || 'false');
   });
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -16,12 +15,10 @@ function App() {
   const [showPostForm, setShowPostForm] = useState(false);
 
   useEffect(() => {
-    // Sayfa yüklendiğinde otomatik giriş kontrolü
     const checkAuth = async () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          // Token ile kullanıcı bilgilerini al
           const response = await fetch('http://127.0.0.1:8000/posts/api/users/me/', {
             headers: {
               'Authorization': `Token ${token}`
@@ -33,7 +30,6 @@ function App() {
             setUser(userData);
             setLoggedIn(true);
           } else {
-            // Token geçersizse temizle
             localStorage.removeItem('token');
           }
         } catch (error) {
@@ -48,20 +44,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Tema değişikliğini localStorage'a kaydet
-    localStorage.setItem('darkMode', darkMode);
-    
-    // Body'ye tema class'ı ekle
-    if (darkMode) {
-      document.body.classList.add('dark-theme');
-    } else {
-      document.body.classList.remove('dark-theme');
-    }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    document.body.classList.toggle('dark-theme', darkMode);
   }, [darkMode]);
 
   const handlePostCreated = () => {
     setRefresh(!refresh);
-    setShowPostForm(false); // Form gönderildikten sonra gizle
+    setShowPostForm(false);
   };
 
   const toggleTheme = () => {
@@ -74,7 +63,6 @@ function App() {
   };
 
   const handleLogout = () => {
-    // Çıkış onayı
     if (window.confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
       localStorage.removeItem('token');
       setLoggedIn(false);
@@ -87,7 +75,6 @@ function App() {
     setShowPostForm(!showPostForm);
   };
 
-  // Loading durumu
   if (loading) {
     return (
       <div className={`loading-container ${darkMode ? 'dark' : ''}`}>

@@ -18,7 +18,7 @@ urlpatterns = [
     path('api/token/', obtain_auth_token, name='api_token_auth'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('api/auth/login/', obtain_auth_token, name='api-login'),
 
 ]
     
-

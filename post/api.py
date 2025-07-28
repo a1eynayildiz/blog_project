@@ -54,4 +54,3 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)  # 👈 Admin de post atabilir
 
 
-
