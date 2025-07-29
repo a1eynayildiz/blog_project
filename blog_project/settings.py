@@ -73,12 +73,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# Dil ve zaman ayarları
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'  # İsteğe göre 'Europe/Istanbul' yapabilirsin
+TIME_ZONE = 'Europe/Istanbul'
 USE_I18N = True
-USE_TZ = False
-
+USE_L10N = True
+USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -109,6 +109,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'ay3727096@gmail.com'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

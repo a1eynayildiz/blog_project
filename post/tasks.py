@@ -7,36 +7,33 @@ import datetime
 
 @shared_task
 def test_task():
-    now = timezone.now()
-    ten_minutes_ago = now - datetime.timedelta(minutes=10)
-    User = get_user_model()
-    all_users = User.objects.all()
-    warned = []
+    try:
+        now = timezone.now()
+        ten_minutes_ago = now - datetime.timedelta(minutes=10)
+        User = get_user_model()
+        
+        # Eski kayıtları temizle
+        NoPostRecord.objects.all().delete()
 
-    # Eski kayıtları temizle (her çalıştığında yeniden oluşturulacak)
-    NoPostRecord.objects.all().delete()
-
-    for user in all_users:
-        has_posted = Post.objects.filter(
-            user=user,
-            created_at__gte=ten_minutes_ago,
-            created_at__lte=now
-        ).exists()
-
-        if not has_posted:
-            warned.append(user.username)
-
-            # ✅ Mail gönder
-            if user.email:
-                send_mail(
-                    subject="10 Dakikalık Post Uyarısı",
-                    message="Son 10 dakikada post atmadınız.",
-                    from_email="ay3727096@gmail.com",
-                    recipient_list=[user.email],
-                    fail_silently=True,
-                )
-
-            # ✅ Veritabanına kayıt
-            NoPostRecord.objects.create(user=user)
-
-    return f"Uyarılan kullanıcılar: {warned}"
+        for user in User.objects.all():
+            if not Post.objects.filter(user=user, created_at__range=(ten_minutes_ago, now)).exists():
+                # Veritabanına kayıt
+                NoPostRecord.objects.create(user=user)
+                
+                # E-posta gönder
+                if user.email:
+                    try:
+                        send_mail(
+                            subject="10 Dakikalık Post Uyarısı",
+                            message="Son 10 dakikada post atmadınız.",
+                            from_email=None,  # DEFAULT_FROM_EMAIL kullanır
+                            recipient_list=[user.email],
+                            fail_silently=False,  # Hataları göster
+                        )
+                        print(f"Mail gönderildi: {user.email}")  # Log
+                    except Exception as e:
+                        print(f"Mail gönderilemedi {user.email}: {str(e)}")
+                        
+        return "Görev başarıyla tamamlandı"
+    except Exception as e:
+        return f"Hata oluştu: {str(e)}"
