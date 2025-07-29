@@ -105,7 +105,7 @@ function App() {
             {loggedIn && (
               <>
                 <span className="user-welcome">
-                  Merhaba, <strong>{user?.username || 'Kullanıcı'}</strong>! 👋
+                  Merhaba, <strong>{user?.username || 'Hoş geldiniz'}</strong>
                 </span>
                 <button 
                   onClick={handleLogout} 

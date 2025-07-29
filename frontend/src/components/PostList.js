@@ -284,7 +284,7 @@ const PostList = ({ refresh }) => {
               
               <div className="post-meta">
                 <span className="post-author">
-                  👤 {post.author?.username || post.author || 'Anonim'}
+                  👤 {post.user?.username || post.user || 'Anonim'}
                 </span>
                 <div className="post-date">
                   <span className="date-full" title={dateInfo.formattedDate}>

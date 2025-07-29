@@ -1,3 +1,4 @@
+# urls.py - sadece mevcut endpoint'i kullanarak
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
@@ -10,15 +11,18 @@ router.register(r'users', UserViewSet, basename='user')
 router.register(r'posts', PostViewSet, basename='post')
 
 urlpatterns = [
+    # Template views
     path('', post_list, name='post_list'),
     path('create/', post_create, name='post_create'),
     path('no-posts/', no_posts, name='no_posts'),
-    path('api/posts-list/', post_list_api, name='post_list_api'),
-    path('api/', include(router.urls)),
-    path('api/token/', obtain_auth_token, name='api_token_auth'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('api/auth/login/', obtain_auth_token, name='api-login'),
-
-]
     
+    # API endpoints
+    path('api/posts-list/', post_list_api, name='post_list_api'),
+    path('api/', include(router.urls)),
+    
+    # Authentication - mevcut endpoint'i kullan
+    path('api/token/', obtain_auth_token, name='api_token_auth'),
+    path('api/auth/login/', obtain_auth_token, name='api-login'),  # Aynı endpoint
+]
