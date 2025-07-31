@@ -31,7 +31,7 @@ A simple blog application built with Django. Users can create posts, view public
 
 - **Backend**: Django (Python)  
 - **Task Queue**: Celery + Redis  
-- **Frontend**: HTML, CSS (via Django Templates)  
+- **Frontend**: HTML, CSS (via Django Templates),React  
 - **Other Tools**: Git, GitHub, Postman
 
 ---
